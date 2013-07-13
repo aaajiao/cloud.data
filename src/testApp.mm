@@ -7,12 +7,12 @@ void testApp::setup(){
 	ofxRegisterMultitouch(this);
 	ofxAccelerometer.setup();
 	ofxiPhoneAlerts.addListener(this);	
-	ofxiPhoneSetOrientation(OFXIPHONE_ORIENTATION_LANDSCAPE_RIGHT);
+	ofxiPhoneSetOrientation(OFXIPHONE_ORIENTATION_LANDSCAPE_LEFT);
 	
 	cout<<ofGetWidth()<<endl;
 	cout<<ofGetHeight()<<endl;
 	
-	if(ofGetWidth()>1000){
+	if(ofGetWidth()==1024 || ofGetWidth()>2000){
 		blnIsIpad = true;
 	}
 	else{
@@ -21,12 +21,18 @@ void testApp::setup(){
 	
 	ofSetFrameRate(60);
 	
-//	synth.loadLoopingSound("music/6.caf");
-//	sd9.loadSound("music/9.caf");
-//	sd3.loadSound("music/3.caf");
-//	sd4.loadSound("music/4.caf");
-//	
-//	synth.play();
+	synth.loadSound("music/6.caf");
+	sd9.loadSound("music/9.caf");
+	sd3.loadSound("music/3.caf");
+	sd4.loadSound("music/4.caf");
+    
+    synth.setLoop(TRUE);
+    synth.setMultiPlay(true);
+    sd9.setMultiPlay(true);
+    sd3.setMultiPlay(true);
+    sd4.setMultiPlay(true);
+	
+	synth.play();
 		
 	aryimgCloud = new ofImage[5];	
 	
@@ -43,6 +49,24 @@ void testApp::setup(){
 	imgfinger2ip.loadImage("finger/f2_ip.png");
 	imgfinger3ip.loadImage("finger/f3_ip.png");
 	
+    if (ofGetWidth()==480) {
+        imgInstruction.loadImage("320x480.png");
+    }
+    else if(ofGetWidth() ==960){
+        imgInstruction.loadImage("640x960.png");
+    }
+    else if(ofGetWidth() == 1136){
+        imgInstruction.loadImage("640x1136.png");
+    }
+    else if(ofGetWidth() == 1024){
+        imgInstruction.loadImage("1024.png");
+    }
+    else if(ofGetWidth() == 2048){
+        imgInstruction.loadImage("2048.png");
+    }
+    else{
+        imgInstruction.loadImage("1024.png");
+    }
 	
 	blnshowfinger = false;
 	
@@ -66,10 +90,10 @@ void testApp::setup(){
 	prey2 = -1;
 	
 	if(blnIsIpad){
-		point_red = ofVec2f(1000,720);
+		point_red = ofVec2f(ofGetWidth()-40,ofGetHeight()-40);
 	}
 	else{
-		point_red = ofVec2f(450.0,300.0);
+		point_red = ofVec2f(ofGetWidth()-20,ofGetHeight()-20);
 		
 		
 	}
@@ -90,7 +114,7 @@ void testApp::update(){
 	
 	
 	if(blnIsIpad){
-		if (pscloud.getSize()<100)
+		if (pscloud.getSize()<200)
 		{
 			
 				pscloud.addParticle(aryimgCloud);
@@ -99,7 +123,7 @@ void testApp::update(){
 		
 	}
 	else{
-		if (pscloud.getSize()<50)
+		if (pscloud.getSize()<100)
 		{
 			
 				pscloud.addParticle(aryimgCloud);
@@ -136,19 +160,22 @@ void testApp::draw(){
 	
     
 	if(blnshowfinger){
-		ofEnableAlphaBlending();
-		if(!blnIsIpad){
-			imgfinger1ip.draw(30,ofGetHeight()/2-imgfinger1ip.height/2,imgfinger1ip.width,imgfinger1ip.height);
-			imgfinger2ip.draw(30+imgfinger1ip.width/2,ofGetHeight()/2-imgfinger1ip.height/2, imgfinger1ip.width,imgfinger1ip.height);
-			imgfinger3ip.draw(30+imgfinger1ip.width,ofGetHeight()/2-imgfinger1ip.height/2,imgfinger1ip.width,imgfinger1ip.height);
-		}
-		else{
-			imgfinger1.draw(60,ofGetHeight()/2-imgfinger1.height/2,imgfinger1.width,imgfinger1.height);
-			imgfinger2.draw(70+imgfinger1.width/2,ofGetHeight()/2-imgfinger1.height/2, imgfinger2.width,imgfinger2.height);
-			imgfinger3.draw(80+imgfinger1.width,ofGetHeight()/2-imgfinger1.height/2-25,imgfinger3.width,imgfinger3.height);
-			
-		}
-		ofDisableAlphaBlending();	
+        
+        imgInstruction.draw(0,0);
+        
+//		ofEnableAlphaBlending();
+//		if(!blnIsIpad){
+//			imgfinger1ip.draw(30,ofGetHeight()/2-imgfinger1ip.height/2,imgfinger1ip.width,imgfinger1ip.height);
+//			imgfinger2ip.draw(30+imgfinger1ip.width/2,ofGetHeight()/2-imgfinger1ip.height/2, imgfinger1ip.width,imgfinger1ip.height);
+//			imgfinger3ip.draw(30+imgfinger1ip.width,ofGetHeight()/2-imgfinger1ip.height/2,imgfinger1ip.width,imgfinger1ip.height);
+//		}
+//		else{
+//			imgfinger1.draw(60,ofGetHeight()/2-imgfinger1.height/2,imgfinger1.width,imgfinger1.height);
+//			imgfinger2.draw(70+imgfinger1.width/2,ofGetHeight()/2-imgfinger1.height/2, imgfinger2.width,imgfinger2.height);
+//			imgfinger3.draw(80+imgfinger1.width,ofGetHeight()/2-imgfinger1.height/2-25,imgfinger3.width,imgfinger3.height);
+//			
+//		}
+//		ofDisableAlphaBlending();	
 		
 	}
 	else{
@@ -166,7 +193,7 @@ void testApp::draw(){
 		if(touchcounter <0 && bln2touch == false){	
 			if(blnIsIpad){
 			if(ABS(x1-prex1)<200){
-			pscloud.add_force(ofVec2f((x1-prex1)*0.05,(y1-prey1)*0.01), 2.0);
+			pscloud.add_force(ofVec2f((x1-prex1)*0.03,(y1-prey1)*0.01), 2.0);
 			}
 			}
 			else{
@@ -176,7 +203,7 @@ void testApp::draw(){
 			}
 			
 			if(musiccounter9 ==0){
-				//sd9.play();
+				sd9.play();
 				musiccounter9 =30;
 			}
 			strmessage = "touchMove 1 point"+ofToString(x1)+"  "+ofToString(y1);	
@@ -194,12 +221,12 @@ void testApp::draw(){
 				}
 				
 				if(musiccounter3 ==0){
-					//sd3.play();
+					sd3.play();
 					musiccounter3 =150;
 				}
 				strmessage1 = "touchMove 2 point x1="+ofToString(x1)+" y1="+ofToString(y1)+" x2="+ofToString(x2)+" y2="+ofToString(y2);
 			}
-			else if(bln3touch = true){
+			else if(bln3touch == true){
 				
 					
 					if(blnIsIpad){
@@ -214,7 +241,7 @@ void testApp::draw(){
 					}
 				
 				if(musiccounter4 ==0){
-					//sd4.play();
+					sd4.play();
 					musiccounter4 =150;
 				}
 				

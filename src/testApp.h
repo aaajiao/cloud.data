@@ -33,10 +33,10 @@ public:
 	
 	ParticleSystem pscloud;
 	
-//	ofxALSoundPlayer synth;
-//	ofxALSoundPlayer sd9;
-//	ofxALSoundPlayer sd3;
-//	ofxALSoundPlayer sd4;
+	ofSoundPlayer synth;
+	ofSoundPlayer sd9;
+	ofSoundPlayer sd3;
+	ofSoundPlayer sd4;
 	
 	int musiccounter9;
 	int musiccounter3;
@@ -83,19 +83,19 @@ public:
 	//ofxVec2f redpoint2;
 	//ofxVec2f redpoint3;
 
-	
+	ofImage imgInstruction;
 	
 	int touchcounter;
 	int touchcounter2;
 	
 	bool blnIsIpad;
     
-    int ofGetWidth(){
-        return 320;
-    }
-    int ofGetHeight(){
-        return 480;
-    }
+//    int ofGetWidth(){
+//        return 320*scaleWidth;
+//    }
+//    int ofGetHeight(){
+//        return 480*scaleHeight;
+//    }
     ofPoint mouse(){
         
         float mousex = ofMap(mouseX,0,320*scaleWidth,0,320);

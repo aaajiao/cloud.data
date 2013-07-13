@@ -5,7 +5,7 @@
 
 	acc.set(0,0);
 	 if(_blnIsIpad){
-	 vel.set(ofRandom(0.1,0.8), ofRandom(-.1,.3));
+	 vel.set(ofRandom(0.1,0.3), ofRandom(-.05,.1));
 	 }
 	 else{
 		 vel.set(ofRandom(0.1,0.3), ofRandom(-.05,.1));
@@ -44,7 +44,7 @@ bool Particle::dead() {
 		}
 	}
 	else{
-		if(sz>1000){
+		if(sz>400){
 			return 1;
 		}
 		
@@ -53,7 +53,9 @@ bool Particle::dead() {
 }
 
 void Particle::add_force(ofVec2f f){
-
+    
+    f.x = ofClamp(f.x, -0.1, 0.1);
+    f.y = ofClamp(f.y, -0.02, 0.02);
 	acc+=f;
 }
 void Particle::add_angleSpeed( float _angle){
@@ -98,7 +100,7 @@ void Particle::updatecloud(){
 		}
 	}
 	else{
-		if(sz>600){
+		if(sz>200){
 			szspeed = ofRandom(-1,-0.1);
 		}
 		if (sz<100)
